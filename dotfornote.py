@@ -6,10 +6,14 @@ import dictionary
 from google.appengine.ext.webapp import template
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
+import pagerank
 
 class MainHandler(webapp2.RequestHandler):
   def get(self):
-    if self.request.get('url'):
+    if self.request.get('pr'): # google page rank
+     pr = pagerank.get_pagerank(self.request.get('pr'))
+     self.response.write('<p> Google PR :[' + str(pr) + '] url [' + self.request.get('pr') + ']<br/>')
+    elif self.request.get('url'):
       url_hist = self.request.get('url')#"http://www.tutorialspoint.com/python/python_lists.htm"
       load_header = self.request.get('h')
       scan = self.request.get('s')
