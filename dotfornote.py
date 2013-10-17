@@ -14,11 +14,11 @@ class MainHandler(webapp2.RequestHandler):
   def get(self):
     if self.request.get('pr'): # google page rank
      url = self.request.get('pr') #"http://www.archlinux.org"
-     providers = (AlexaTrafficRank(), GooglePageRank(),)
+     providers = (AlexaTrafficRank() , GooglePageRank(),)
 
-     print("Traffic stats for: %s" % (url))
+     self.response.write("Traffic stats for: %s" % (url))
      for p in providers:
-        print("%s:%d" % (p.__class__.__name__, p.get_rank(url)))
+       self.response.write( '<br/> Class is ' + str(p.__class__.__name__) + ' - Rank is ' + str(p.get_rank(url)) + '<br />')
 
 
     elif self.request.get('url'):
