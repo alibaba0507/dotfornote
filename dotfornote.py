@@ -7,12 +7,20 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 import pagerank
+from rank_provider import AlexaTrafficRank
+from rank_provider import GooglePageRank
 
 class MainHandler(webapp2.RequestHandler):
   def get(self):
     if self.request.get('pr'): # google page rank
-     pr = pagerank.get_pagerank(self.request.get('pr'))
-     self.response.write('<p> Google PR :[' + str(pr) + '] url [' + self.request.get('pr') + ']<br/>')
+     url = self.request.get('pr') #"http://www.archlinux.org"
+     providers = (AlexaTrafficRank(), GooglePageRank(),)
+
+     print("Traffic stats for: %s" % (url))
+     for p in providers:
+        print("%s:%d" % (p.__class__.__name__, p.get_rank(url)))
+
+
     elif self.request.get('url'):
       url_hist = self.request.get('url')#"http://www.tutorialspoint.com/python/python_lists.htm"
       load_header = self.request.get('h')
