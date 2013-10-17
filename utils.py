@@ -147,7 +147,7 @@ def analyzeText(text):
       if pos_wrd.has_key(s.lower()) : # positive
         # check for negative sign before positive words
         if len(words_before) > 0:
-         if words_before[-1].lower() != 'not' and words_before[-1].lower() != 'don\'t' and words_before[-1] != 'doesn\'t' and words_before[-1] != 'can\'t':
+         if words_before[-1] != 'not' and words_before[-1] != 'don\'t' and words_before[-1] != 'doesn\'t' and words_before[-1] != 'can\'t':
           pos_cnt += 1
         else:
          pos_cnt += 1 # we found positive
@@ -169,7 +169,7 @@ def analyzeText(text):
         i_start = i_end  + 1
         i_end = mod_txt.find(' ',i_start)
         
-      words_before.append(s) # add words to list
+      words_before.append(s.lower()) # add words to list
     if b_mod > 0: # text has been modified
       #logging.debug('Old text [' + txt + '] new text[' + mod_txt + ']')
       text = text[:start_indx] + mod_txt + text[start_indx + (len(txt) - len_diff):]
