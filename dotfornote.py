@@ -10,6 +10,8 @@ import pagerank
 from rank_provider import AlexaTrafficRank
 from rank_provider import GooglePageRank
 
+
+  
 class MainHandler(webapp2.RequestHandler):
   def get(self):
     if self.request.get('pr'): # google page rank
@@ -49,9 +51,15 @@ class MainHandler(webapp2.RequestHandler):
           if header is not None and len(load_header) > 0:
             self.response.write(header + ret[3])
           elif words_only == '1':
-            self.response.write('<p> Most used words :[' + str(ret[0]) + ']<br/>')
-            self.response.write('<p> Positive words :[' + str(ret[1]) + ']<br/>')
-            self.response.write('<p> Negative words :[' + str(ret[2]) + ']<br/>')
+            response = {}
+            response['used'] = ret[0]
+            response['positive'] = ret[1]
+            response['negative'] = ret[2]
+            #write json string to output
+            self.response.write(json.dumps(response))
+            #self.response.write('<p> Most used words :[' + str(ret[0]) + ']<br/>')
+            #self.response.write('<p> Positive words :[' + str(ret[1]) + ']<br/>')
+            #self.response.write('<p> Negative words :[' + str(ret[2]) + ']<br/>')
           else:
             self.response.write(ret[3])
         #self.response.write(ret[3])
